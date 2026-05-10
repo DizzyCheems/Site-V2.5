@@ -1,100 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentacit Records | {{ $songs->songname ?? 'Song Details' }}</title>
 
-    @include('layouts.readmore_song')
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Hearo|HOME</title>
-
-
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="/images/Hearo.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/style.css">
-
-  
-<!--- SUCCESOR CSS FILES -->
-
-    <!-- Bootstrap core CSS -->
-    <link href="/succesor/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="icon" type="image/png" href="{{ asset('images/Tentacit Shape-0.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="/succesor/assets/css/fontawesome.css">
-    <link rel="stylesheet" href="/succesor/assets/css/site.css">
-    <link rel="stylesheet" href="/succesor/assets/css/mainsite.css" type="text/css" media="1">
-    <link rel="stylesheet" href="/succesor/assets/css/animated.css">
-    <link rel="stylesheet" href="/succesor/assets/css/owl.css">
-    <link rel="stylesheet" href="/succesor/assets/css/main.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="{{ asset('succesor/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="{{ asset('succesor/assets/css/tentacit.css') }}">
 
+    <style>
+        /* Song Detail page-specific styles */
+        .song-detail {
+            padding: 150px 0 80px;
+        }
+        .song-detail .album-art {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--glow-purple);
+            transition: all 0.4s;
+            border: 1px solid rgba(180,74,255,0.2);
+        }
+        .song-detail .album-art:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 80px var(--glow-purple);
+        }
+        .song-detail h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .song-detail .meta-label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        .song-detail .meta-value {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .song-detail .genre-badge {
+            display: inline-block;
+            background: rgba(180,74,255,0.2);
+            color: var(--neon-purple);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
+        audio {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+        }
+        audio::-webkit-media-controls-panel {
+            background: rgba(20, 20, 31, 0.9);
+        }
 
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Vesperr - v4.7.0
-  * Template URL: https://bootstrapmade.com/vesperr-free-bootstrap-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-    
+        @media (max-width: 768px) {
+            .song-detail h1 { font-size: 2rem; }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
 
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-tentacit fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{route('homepage')}}">
+                <img src="{{ asset('images/TentacitV1.1.png') }}" alt="Tentacit Records">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{route('homepage')}}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('artists')}}">Artists</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{route('musics')}}">Music</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('details')}}">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-@yield('site_songinfo')
+    <section class="song-detail">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 text-center animate__animated animate__fadeInLeft">
+                    <img src="/image/{{ $songs->image }}" class="album-art" alt="{{ $songs->songname }}"
+                         onerror="this.src='{{ asset('images/TentacitV1.1.png') }}'">
+                </div>
+                <div class="col-lg-7 animate__animated animate__fadeInRight">
+                    <span class="genre-badge mb-3">{{ $songs->genre }}</span>
+                    <h1>{{ $songs->songname }}</h1>
+                    <p style="font-size:1.2rem; font-weight:600; color:var(--neon-purple);">{{ $songs->author }}</p>
 
-  <!-- Vendor JS Files -->
-  <script src="/assets/vendor/purecounter/purecounter.js"></script>
-  <script src="/assets/vendor/aos/aos.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <p class="meta-label">Album</p>
+                            <p class="meta-value">{{ $songs->album }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="meta-label">Released</p>
+                            <p class="meta-value">{{ $songs->date_registered }}</p>
+                        </div>
+                    </div>
 
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
+                    <div class="mt-4">
+                        <audio controls>
+                            <source src="{{ asset('succesor/songs/' . (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3')) }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
 
-  <!--SUCCESOR SCRIPT FILES-->
-   <!-- Scripts -->
-   <script src="/succesor/vendor/jquery/jquery.min.js"></script>
-  <script src="/succesor/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/succesor/assets/js/owl-carousel.js"></script>
-  <script src="/succesor/assets/js/animation.js"></script>
-  <script src="/succesor/assets/js/imagesloaded.js"></script>
-  <script src="/succesor/assets/js/custom.js"></script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.validate.min.js"></script>
-  <script src="js/main.js"></script>
+                    <div class="mt-4 d-flex gap-3">
+                        <a href="{{route('musics')}}" class="btn-tentacit-outline">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Library
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="social-links mb-3">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+            </div>
+            <p>&copy; {{ date('Y') }} Tentacit Records. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ asset('succesor/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('succesor/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

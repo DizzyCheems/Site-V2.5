@@ -132,7 +132,7 @@
 
 <div class="container-audio">
         <audio controls >
-                   <source src="/songs/{{$song->audio}} " type="audio/ogg">
+                   <source src="/succesor/songs/{{ (str_ends_with($song->audio, '.mp3') ? $song->audio : $song->audio . '.mp3') }}" type="audio/mpeg">
                    Your browser dose not Support the audio Tag
                </audio>
     </div>

@@ -18,7 +18,9 @@ class SiteController extends Controller
     public function index()
     {
         // 
-        return view('pages.site');
+        $artistCount = artist::count();
+        $songCount = Song::count();
+        return view('pages.site', compact('artistCount', 'songCount'));
     }
 
 

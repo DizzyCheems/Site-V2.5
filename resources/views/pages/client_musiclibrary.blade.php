@@ -816,8 +816,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ route('homepage') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{ route('musics') }}">Music</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('artists') }}">Artists</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('musics') }}">Music</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('details') }}">About</a></li>
                 </ul>
             </div>

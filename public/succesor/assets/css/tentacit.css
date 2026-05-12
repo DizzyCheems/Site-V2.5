@@ -72,7 +72,7 @@ body {
 }
 
 .navbar-tentacit .navbar-brand img {
-    height: 45px;
+    height: 60px;
     filter: drop-shadow(0 0 20px var(--glow-purple));
     transition: 0.3s;
 }

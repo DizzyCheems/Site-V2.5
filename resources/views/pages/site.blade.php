@@ -630,16 +630,16 @@
         .channel-card:hover .channel-bg { transform: scale(1.06); }
 
         .channel-card:nth-child(1) .channel-bg {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.85) 0%, rgba(56, 189, 248, 0.5) 60%, rgba(5, 5, 15, 0.9) 100%),
-                        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 11px);
+            background: linear-gradient(to bottom, rgba(5,5,15,0.1) 0%, rgba(5,5,15,0.55) 100%),
+                        url('{{ asset('assets/vibes/electric.jpg') }}') center/cover no-repeat;
         }
         .channel-card:nth-child(2) .channel-bg {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.85) 0%, rgba(34, 211, 238, 0.5) 60%, rgba(5, 5, 15, 0.9) 100%),
-                        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 11px);
+            background: linear-gradient(to bottom, rgba(5,5,15,0.1) 0%, rgba(5,5,15,0.55) 100%),
+                        url('{{ asset('assets/vibes/liquid.jpg') }}') center/cover no-repeat;
         }
         .channel-card:nth-child(3) .channel-bg {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.85) 0%, rgba(168, 85, 247, 0.5) 60%, rgba(5, 5, 15, 0.9) 100%),
-                        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 11px);
+            background: linear-gradient(to bottom, rgba(5,5,15,0.1) 0%, rgba(5,5,15,0.55) 100%),
+                        url('{{ asset('assets/vibes/cosmic.jpg') }}') center/cover no-repeat;
         }
 
         .channel-overlay {
@@ -1178,7 +1178,6 @@
                 <a href="{{ route('musics') }}" class="channel-card">
                     <div class="channel-bg"></div>
                     <div class="channel-overlay">
-                        <div class="channel-icon">&#9889;</div>
                         <div class="channel-name">Electric</div>
                         <p class="channel-desc">High energy &amp; hard-hitting beats</p>
                     </div>
@@ -1187,7 +1186,6 @@
                 <a href="{{ route('musics') }}" class="channel-card">
                     <div class="channel-bg"></div>
                     <div class="channel-overlay">
-                        <div class="channel-icon">&#127754;</div>
                         <div class="channel-name">Liquid</div>
                         <p class="channel-desc">Smooth, melodic &amp; atmospheric</p>
                     </div>
@@ -1196,7 +1194,6 @@
                 <a href="{{ route('musics') }}" class="channel-card">
                     <div class="channel-bg"></div>
                     <div class="channel-overlay">
-                        <div class="channel-icon">&#127756;</div>
                         <div class="channel-name">Cosmic</div>
                         <p class="channel-desc">Cinematic, ambient &amp; deep</p>
                     </div>

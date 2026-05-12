@@ -23,8 +23,8 @@
             background-image: url('/song-images/{{ $songs->background_image ?? $songs->image }}');
             background-size: cover;
             background-position: center;
-            filter: blur(50px) brightness(0.2) saturate(0.7);
-            transform: scale(1.08);
+            filter: brightness(0.55) saturate(1.1);
+            transform: scale(1.0);
             pointer-events: none;
         }
 
@@ -34,8 +34,7 @@
             inset: 0;
             z-index: 0;
             background:
-                radial-gradient(ellipse at center, transparent 20%, rgba(4,4,12,0.7) 100%),
-                linear-gradient(180deg, rgba(4,4,12,0.5) 0%, transparent 30%, transparent 70%, rgba(4,4,12,0.8) 100%);
+                linear-gradient(180deg, rgba(4,4,12,0.35) 0%, transparent 30%, transparent 70%, rgba(4,4,12,0.6) 100%);
             pointer-events: none;
         }
 
@@ -44,9 +43,7 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            background:
-                radial-gradient(ellipse 60% 40% at 20% 50%, rgba(168,85,247,0.06), transparent),
-                radial-gradient(ellipse 50% 40% at 80% 50%, rgba(56,189,248,0.05), transparent);
+            background: rgba(4,4,12,0.3);
             pointer-events: none;
         }
 
@@ -501,7 +498,7 @@
                         <canvas id="spectrogramCanvas"></canvas>
 
                         <!-- Progress -->
-                        <div class="prog-track" id="progTrack" onclick="seekAudio(event)">
+                        <div class="prog-track" id="progTrack">
                             <div class="prog-fill" id="progFill">
                                 <div class="prog-thumb"></div>
                             </div>
@@ -714,11 +711,25 @@
         document.getElementById('durTime').textContent  = fmt(audio.duration);
     });
 
-    function seekAudio(e) {
-        const rect = document.getElementById('progTrack').getBoundingClientRect();
-        const pct  = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
-        if (audio.duration) audio.currentTime = pct * audio.duration;
+    // ── Seek (click + drag) ──
+    let isSeeking = false;
+    const progTrack = document.getElementById('progTrack');
+
+    function applySeek(clientX) {
+        const rect = progTrack.getBoundingClientRect();
+        const pct  = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
+        if (audio.duration && !isNaN(audio.duration)) {
+            audio.currentTime = pct * audio.duration;
+        }
     }
+
+    progTrack.addEventListener('mousedown', (e) => { isSeeking = true; applySeek(e.clientX); e.preventDefault(); });
+    document.addEventListener('mousemove', (e) => { if (isSeeking) applySeek(e.clientX); });
+    document.addEventListener('mouseup',   ()  => { isSeeking = false; });
+
+    progTrack.addEventListener('touchstart', (e) => { isSeeking = true; applySeek(e.touches[0].clientX); }, { passive: true });
+    document.addEventListener('touchmove',   (e) => { if (isSeeking) applySeek(e.touches[0].clientX); },   { passive: true });
+    document.addEventListener('touchend',    ()  => { isSeeking = false; });
 
     function seekRelative(secs) {
         audio.currentTime = Math.max(0, Math.min((audio.currentTime + secs), audio.duration || 0));

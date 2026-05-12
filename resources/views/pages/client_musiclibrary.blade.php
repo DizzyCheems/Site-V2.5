@@ -973,9 +973,7 @@
                 <i class="fas fa-volume-up"></i>
             </div>
 
-            <audio id="mainAudio" preload="auto">
-                <source id="audioSource" src="" type="audio/mpeg">
-            </audio>
+            <audio id="mainAudio" preload="auto"></audio>
         </div>
     </div>
 
@@ -1201,7 +1199,7 @@
         stopViz();
         audio.pause();
 
-        document.getElementById('audioSource').src = tile.dataset.audio;
+        audio.src = tile.dataset.audio;
         audio.load();
 
         audio.addEventListener('canplay', function onCan() {
@@ -1321,13 +1319,20 @@
         }
     }
 
+    const progressFillEl = document.getElementById('progressFill');
     progressTrack.addEventListener('mousedown', (e) => {
         isSeeking = true;
+        progressFillEl.style.transition = 'none';
         applySeek(e.clientX);
         e.preventDefault();
     });
     document.addEventListener('mousemove', (e) => { if (isSeeking) applySeek(e.clientX); });
-    document.addEventListener('mouseup',   ()  => { isSeeking = false; });
+    document.addEventListener('mouseup',   ()  => {
+        if (isSeeking) {
+            isSeeking = false;
+            progressFillEl.style.transition = '';
+        }
+    });
 
     progressTrack.addEventListener('touchstart', (e) => {
         isSeeking = true;

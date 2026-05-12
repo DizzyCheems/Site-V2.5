@@ -9,7 +9,7 @@
                     <div class="col-xs-12 col-sm-4">
                         <div class="card"  style="width: 20rem; ">
                             <a class="img-card" href="{{route('song_info', $song['id'])}}">
-                            <img src="/image/{{$song->image}}" />
+                            <img src="/song-images/{{$song->image}}" />
                           </a>
                             <div class="card-content">
                                 <h4 class="card-title">
@@ -55,7 +55,7 @@
       <h2 class="song-titleh2" >{{$song ['songname']}}</h2>
       <h2 class="song-titleh2">{{$song ['author']}}</h2>
 
-<img src="/image/{{$song ->image}}" style="width:300px; height:300px; margin-left:80px; border-radius:3px; border:solid;"  >
+<img src="/song-images/{{$song ->image}}" style="width:300px; height:300px; margin-left:80px; border-radius:3px; border:solid;"  >
 
 <!-- Audio player !-->
 <div class="container-audio">
@@ -132,7 +132,7 @@
 
 <div class="container-audio">
         <audio controls >
-                   <source src="/succesor/songs/{{ (str_ends_with($song->audio, '.mp3') ? $song->audio : $song->audio . '.mp3') }}" type="audio/mpeg">
+                   <source src="/music/{{ (str_ends_with($song->audio, '.mp3') ? $song->audio : $song->audio . '.mp3') }}" type="audio/mpeg">
                    Your browser dose not Support the audio Tag
                </audio>
     </div>

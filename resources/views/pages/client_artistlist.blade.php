@@ -116,7 +116,7 @@
                 @forelse($artists as $artist)
                 <div class="col-lg-4 col-md-6">
                     <div class="artist-card">
-                        <img src="/image/{{ $artist->image }}" class="artist-card-img" alt="{{ $artist->artistname }}"
+                        <img src="/artist-profile-images/{{ $artist->image }}" class="artist-card-img" alt="{{ $artist->artistname }}"
                              onerror="this.src='{{ asset('images/TentacitV1.1.png') }}'">
                         <div class="artist-card-body">
                             <h3>{{ $artist->artistname }}</h3>

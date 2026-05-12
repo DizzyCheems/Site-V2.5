@@ -103,7 +103,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-5 text-center animate__animated animate__fadeInLeft">
-                    <img src="/image/{{ $songs->image }}" class="album-art" alt="{{ $songs->songname }}"
+                    <img src="/song-images/{{ $songs->image }}" class="album-art" alt="{{ $songs->songname }}"
                          onerror="this.src='{{ asset('images/TentacitV1.1.png') }}'">
                 </div>
                 <div class="col-lg-7 animate__animated animate__fadeInRight">
@@ -124,7 +124,7 @@
 
                     <div class="mt-4">
                         <audio controls>
-                            <source src="{{ asset('succesor/songs/' . (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3')) }}" type="audio/mpeg">
+                            <source src="{{ asset('music/' . (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3')) }}" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                     </div>

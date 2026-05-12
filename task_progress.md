@@ -1,17 +1,23 @@
-# Tentacit Records - Site Revival Checklist
+# Task Progress - File Path Updates
 
-## Progress
-- [x] Explore project structure and understand current state
-- [x] Check database (songs, artists, prospects tables) - all working
-- [x] Verify song files exist in correct directory
-- [x] Fix image directories (1st_bg, 2nd_bg, image)
-- [x] Review main views (site.blade.php, music, artists, about)
-- [x] Review controllers and routes
-- [ ] Check layouts and readmore pages
-- [ ] Fix image paths in database to match available files
-- [ ] Fix the music library image paths to use /image/ instead of /succesor/images/
-- [ ] Create/update song_readmore view
-- [ ] Create/update artist_readmore view
-- [ ] Check .env and database config
-- [ ] Test the site
-- [ ] Add any missing functionality
+- [x] Update AdminController.php - image upload path (succesor/image → song-images)
+- [x] Update AdminController.php - audio upload path (succesor/songs → music)
+- [x] Update AdminController.php - artist image upload path (succesor/image → artist-profile-images)
+- [x] Update AdminController.php - delete paths for songs
+- [x] Update AdminController.php - delete paths for artists
+- [x] Update client_musiclibrary.blade.php - image path (/image/ → /song-images/)
+- [x] Update client_musiclibrary.blade.php - audio path (succesor/songs/ → music/)
+- [x] Update song_readmore.blade.php - image path (/image/ → /song-images/)
+- [x] Update song_readmore.blade.php - audio path (succesor/songs/ → music/)
+- [x] Update client_artistlist.blade.php - image path (/image/ → /artist-profile-images/)
+- [x] Update artist_readmore.blade.php - image path (/image/ → /artist-profile-images/)
+- [x] Update genres/songs.blade.php - image path (/image/ → /song-images/)
+- [x] Update genres/songs.blade.php - audio path (succesor/songs/ → music/)
+- [x] Update layouts/readmore_song.blade.php - image paths
+- [x] Update layouts/readmore_song.blade.php - audio path (succesor/songs/ → music/)
+- [x] Update layouts/readmore_artist.blade.php - image paths
+- [x] Update layouts/readmore_artist.blade.php - audio path (succesor/songs/ → music/)
+- [x] Update admin/songs.blade.php - image path
+- [x] Update admin/song_form.blade.php - image path
+- [x] Update admin/artists.blade.php - image path
+- [x] Update admin/artist_form.blade.php - image path

@@ -234,7 +234,7 @@
                 @forelse($song as $s)
                 <div class="col-lg-4 col-md-6">
                     <div class="song-card animate__animated animate__fadeInUp">
-                        <img src="/image/{{ $s->image }}" class="song-card-img" alt="{{ $s->songname }}"
+                        <img src="/song-images/{{ $s->image }}" class="song-card-img" alt="{{ $s->songname }}"
                              onerror="this.src='{{ asset('images/TentacitV1.1.png') }}'">
                         <div class="song-card-body">
                             <div class="d-flex justify-content-between align-items-start">
@@ -245,8 +245,8 @@
                                 <button class="btn-play play-song-btn"
                                         data-song="{{ $s->songname }}"
                                         data-artist="{{ $s->author }}"
-                                        data-img="/image/{{ $s->image }}"
-                                        data-audio="{{ asset('succesor/songs/' . (str_ends_with($s->audio, '.mp3') ? $s->audio : $s->audio . '.mp3')) }}"
+                                        data-img="/song-images/{{ $s->image }}"
+                                        data-audio="{{ asset('music/' . (str_ends_with($s->audio, '.mp3') ? $s->audio : $s->audio . '.mp3')) }}"
                                         onclick="openPlayer(this)">
                                     <i class="fas fa-play"></i>
                                 </button>

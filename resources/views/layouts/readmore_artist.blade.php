@@ -47,7 +47,7 @@
 <div style="border:azure;">
 <!--BANNER AREA!-->
 
-<section id="artistlist-info" style=" background-image: url('/image/{{ $artist->image }}'); background-size:cover;"  class="d-flex align-items-center">
+<section id="artistlist-info" style=" background-image: url('/artist-profile-images/{{ $artist->image }}'); background-size:cover;"  class="d-flex align-items-center">
  <img class="featured-artist" src="/1st_bg/{{ $artist->background_img }}" style="  width: 350px; height:300px;
  margin-top:20px; margin-left:50px; border-color: white; border:solid; border-width:2px;">
     <div class="container">
@@ -669,7 +669,7 @@ Hearo Records envisions to be a company that gives hope and opportunity to all a
               <div class="swiper-wrapper align-items-center">
 
                 <div class="swiper-slide" >
-                  <img src=" /image/{{ $artist->image }} " style="height: 500px; width:600px;" alt="">
+                  <img src=" /artist-profile-images/{{ $artist->image }} " style="height: 500px; width:600px;" alt="">
                 </div>
 
                 <div class="swiper-slide"> 
@@ -747,7 +747,7 @@ Hearo Records envisions to be a company that gives hope and opportunity to all a
         @forelse($artist->Song as $songs)
           <div class="col-lg-4 col-md-6 portfolio-item filter-app"  >
             <div class="portfolio-wrap">
-              <img src="/image/{{ $songs->image }}" class="img-fluid" alt="" style="width:360px; height:300px;">
+<img src="/song-images/{{ $songs->image }}" class="img-fluid" alt="" style="width:360px; height:300px;">
               <div class="portfolio-info">
                 <h4 >{{$songs ['songname']}}</h4>
                 <p>{{$songs ['genre']}}</p>
@@ -774,7 +774,7 @@ Hearo Records envisions to be a company that gives hope and opportunity to all a
       <h2 class="song-titleh2" >{{$songs ['songname']}}</h2>
       <h2 class="song-titleh2">{{$songs ['author']}}</h2>
 
-<img src="/image/{{$songs ->image}}" style="width:300px; height:300px; margin-left:80px; border-radius:3px; border:solid;"  >
+<img src="/song-images/{{$songs ->image}}" style="width:300px; height:300px; margin-left:80px; border-radius:3px; border:solid;"  >
 
 <!-- Audio player !-->
 <div class="container-audio">
@@ -851,7 +851,7 @@ Hearo Records envisions to be a company that gives hope and opportunity to all a
 
 <div class="container-audio">
         <audio controls >
-                   <source src="/succesor/songs/{{ (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3') }}" type="audio/mpeg">
+                   <source src="/music/{{ (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3') }}" type="audio/mpeg">
                    Your browser dose not Support the audio Tag
                </audio>
     </div>

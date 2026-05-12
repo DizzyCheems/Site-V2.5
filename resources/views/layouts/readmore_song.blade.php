@@ -47,7 +47,7 @@
 <div style="border:azure;">
 <!--BANNER AREA!-->
 
-<section id="artistlist-info" style="background-image:url('/image/{{$songs->image}}')" class="d-flex align-items-center">
+<section id="artistlist-info" style="background-image:url('/song-images/{{$songs->image}}')" class="d-flex align-items-center">
  <img class="featured-artist" src="/1st_bg/{{ $songs->background_image }}" style="  width: 350px; height:300px;
  margin-top:20px; margin-left:50px; border-color: white; border:solid; border-width:2px;">
     <div class="container">
@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="swiper-slide"> 
-                  <img src="/image/{{ $songs->image }}" style="height: 500px; width:600px;" alt="">
+                  <img src="/song-images/{{ $songs->image }}" style="height: 500px; width:600px;" alt="">
                 </div>
 
                 <div class="swiper-slide">

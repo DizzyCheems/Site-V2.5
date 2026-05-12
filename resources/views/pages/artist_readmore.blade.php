@@ -92,7 +92,7 @@
 
     <section class="artist-header">
         <div class="container">
-            <img src="/image/{{ $artist->image }}" class="artist-avatar animate__animated animate__fadeInDown" alt="{{ $artist->artistname }}"
+            <img src="/artist-profile-images/{{ $artist->image }}" class="artist-avatar animate__animated animate__fadeInDown" alt="{{ $artist->artistname }}"
                  onerror="this.src='{{ asset('images/TentacitV1.1.png') }}'">
             <h1>{{ $artist->artistname }}</h1>
             <span class="genre-tag">{{ $artist->genre }}</span>

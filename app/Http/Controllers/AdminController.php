@@ -99,7 +99,7 @@ class AdminController extends Controller
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
-            $imageFile->move(public_path('succesor/image'), $imageName);
+            $imageFile->move(public_path('song-images'), $imageName);
             $data['image'] = $imageName;
         }
 
@@ -107,7 +107,7 @@ class AdminController extends Controller
         if ($request->hasFile('audio')) {
             $audioFile = $request->file('audio');
             $audioName = $audioFile->getClientOriginalName();
-            $audioFile->move(public_path('succesor/songs'), $audioName);
+            $audioFile->move(public_path('music'), $audioName);
             $data['audio'] = $audioName;
         }
 
@@ -122,11 +122,11 @@ class AdminController extends Controller
     {
         $song = Song::findOrFail($id);
         // Delete associated files
-        if ($song->image && file_exists(public_path('succesor/image/' . $song->image))) {
-            unlink(public_path('succesor/image/' . $song->image));
+        if ($song->image && file_exists(public_path('song-images/' . $song->image))) {
+            unlink(public_path('song-images/' . $song->image));
         }
-        if ($song->audio && file_exists(public_path('succesor/songs/' . $song->audio))) {
-            unlink(public_path('succesor/songs/' . $song->audio));
+        if ($song->audio && file_exists(public_path('music/' . $song->audio))) {
+            unlink(public_path('music/' . $song->audio));
         }
         $song->delete();
         return redirect()->route('admin.songs')->with('success', 'Song deleted successfully!');
@@ -176,7 +176,7 @@ class AdminController extends Controller
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
-            $imageFile->move(public_path('succesor/image'), $imageName);
+            $imageFile->move(public_path('artist-profile-images'), $imageName);
             $data['image'] = $imageName;
         }
 
@@ -190,8 +190,8 @@ class AdminController extends Controller
     public function artist_delete($id)
     {
         $artist = Artist::findOrFail($id);
-        if ($artist->image && file_exists(public_path('succesor/image/' . $artist->image))) {
-            unlink(public_path('succesor/image/' . $artist->image));
+        if ($artist->image && file_exists(public_path('artist-profile-images/' . $artist->image))) {
+            unlink(public_path('artist-profile-images/' . $artist->image));
         }
         $artist->delete();
         return redirect()->route('admin.artists')->with('success', 'Artist deleted successfully!');

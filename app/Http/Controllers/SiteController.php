@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\artist;
+use App\Models\Artist;
 use App\Models\Song;
 use App\Models\prospect;
 use App\Models\Site;
@@ -18,14 +18,14 @@ class SiteController extends Controller
     public function index()
     {
         // 
-        $artistCount = artist::count();
+        $artistCount = Artist::count();
         $songCount = Song::count();
 
         // Get newest tracks (latest 5 songs)
         $newestSongs = Song::orderBy('created_at', 'desc')->take(5)->get();
 
         // Get most admired artists (latest 5 artists - you can adjust this logic)
-        $admiredArtists = artist::orderBy('created_at', 'desc')->take(5)->get();
+        $admiredArtists = Artist::orderBy('created_at', 'desc')->take(5)->get();
 
         return view('pages.site', compact('artistCount', 'songCount', 'newestSongs', 'admiredArtists'));
     }
@@ -63,7 +63,7 @@ class SiteController extends Controller
     {
         // 
              //
-             $data= artist::all();
+             $data= Artist::all();
              return view ('pages.client_artistlist', ['artists'=>$data]);
     }
 
@@ -222,7 +222,7 @@ class SiteController extends Controller
     public function artist_profile(artist $artist , $id)
     {
       //
-      $artist = artist::find($id);
+      $artist = Artist::find($id);
       return view ('pages.artist_readmore')->with('artist', $artist); }
 
       /**
@@ -234,7 +234,7 @@ class SiteController extends Controller
     {
         // 
              //
-             $artist= artist::all();
+             $artist= Artist::all();
              return view ('temp.artistlike', ['artist'=>$artist]);
     }
 

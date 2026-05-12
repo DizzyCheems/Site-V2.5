@@ -20,7 +20,14 @@ class SiteController extends Controller
         // 
         $artistCount = artist::count();
         $songCount = Song::count();
-        return view('pages.site', compact('artistCount', 'songCount'));
+
+        // Get newest tracks (latest 5 songs)
+        $newestSongs = Song::orderBy('created_at', 'desc')->take(5)->get();
+
+        // Get most admired artists (latest 5 artists - you can adjust this logic)
+        $admiredArtists = artist::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('pages.site', compact('artistCount', 'songCount', 'newestSongs', 'admiredArtists'));
     }
 
 

@@ -124,7 +124,7 @@
 
                     <div class="mt-4">
                         <audio controls>
-                            <source src="{{ asset('music/' . (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3')) }}" type="audio/mpeg">
+<source src="{{ (str_starts_with($songs->audio, '/') ? $songs->audio : '/succesor/songs/' . $songs->audio) }}" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                     </div>

@@ -245,6 +245,49 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
 
+/* ===== PAGE BACKGROUND IMAGE ===== */
+.page-bg-wrap {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.page-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.13;
+    filter: saturate(0.5) brightness(0.35);
+}
+
+/* ===== GENRE BADGE ===== */
+.genre-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--neon-cyan);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== NAVBAR OVERRIDE (ensures horizontal layout at lg+) ===== */
+@media (min-width: 992px) {
+    .navbar-tentacit .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+    }
+    .navbar-tentacit .navbar-nav {
+        flex-direction: row !important;
+    }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .btn-tentacit-outline { margin-left: 0; margin-top: 10px; }

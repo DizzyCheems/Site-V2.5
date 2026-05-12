@@ -851,7 +851,7 @@ Hearo Records envisions to be a company that gives hope and opportunity to all a
 
 <div class="container-audio">
         <audio controls >
-                   <source src="/music/{{ (str_ends_with($songs->audio, '.mp3') ? $songs->audio : $songs->audio . '.mp3') }}" type="audio/mpeg">
+<source src="{{ (str_starts_with($songs->audio, '/') ? $songs->audio : '/succesor/songs/' . $songs->audio) }}" type="audio/mpeg">
                    Your browser dose not Support the audio Tag
                </audio>
     </div>

@@ -253,6 +253,7 @@
             border-radius: 10px;
             position: relative;
             transition: width 0.1s linear;
+            pointer-events: none;
         }
 
         .prog-thumb {
@@ -266,6 +267,7 @@
             opacity: 0;
             transition: opacity 0.2s;
             box-shadow: 0 0 12px var(--neon-purple);
+            pointer-events: none;
         }
 
         .prog-track:hover .prog-thumb { opacity: 1; }
@@ -537,7 +539,7 @@
 
                     <!-- Hidden audio element -->
                     <audio id="audioEl" preload="auto">
-                        <source src="{{ (str_starts_with($songs->audio ?? '', '/') ? $songs->audio : '/succesor/songs/' . $songs->audio) }}" type="audio/mpeg">
+                        <source src="{{ (str_starts_with($songs->audio ?? '', '/') ? $songs->audio : '/audio/' . $songs->audio) }}">
                     </audio>
 
                     <div>
@@ -711,25 +713,35 @@
         document.getElementById('durTime').textContent  = fmt(audio.duration);
     });
 
-    // ── Seek (click + drag) ──
-    let isSeeking = false;
-    const progTrack = document.getElementById('progTrack');
+    // ── Seek (Pointer Events API) ──
+    const progTrack  = document.getElementById('progTrack');
+    const progFillEl = document.getElementById('progFill');
 
     function applySeek(clientX) {
         const rect = progTrack.getBoundingClientRect();
-        const pct  = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
-        if (audio.duration && !isNaN(audio.duration)) {
+        if (!rect.width) return;
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
+        if (!isNaN(audio.duration) && audio.duration > 0) {
             audio.currentTime = pct * audio.duration;
+            progFillEl.style.width = (pct * 100) + '%';
         }
     }
 
-    progTrack.addEventListener('mousedown', (e) => { isSeeking = true; applySeek(e.clientX); e.preventDefault(); });
-    document.addEventListener('mousemove', (e) => { if (isSeeking) applySeek(e.clientX); });
-    document.addEventListener('mouseup',   ()  => { isSeeking = false; });
-
-    progTrack.addEventListener('touchstart', (e) => { isSeeking = true; applySeek(e.touches[0].clientX); }, { passive: true });
-    document.addEventListener('touchmove',   (e) => { if (isSeeking) applySeek(e.touches[0].clientX); },   { passive: true });
-    document.addEventListener('touchend',    ()  => { isSeeking = false; });
+    progTrack.addEventListener('pointerdown', (e) => {
+        progTrack.setPointerCapture(e.pointerId);
+        progFillEl.style.transition = 'none';
+        applySeek(e.clientX);
+        e.preventDefault();
+    });
+    progTrack.addEventListener('pointermove', (e) => {
+        if (progTrack.hasPointerCapture(e.pointerId)) applySeek(e.clientX);
+    });
+    progTrack.addEventListener('pointerup', (e) => {
+        if (progTrack.hasPointerCapture(e.pointerId)) {
+            progTrack.releasePointerCapture(e.pointerId);
+            progFillEl.style.transition = '';
+        }
+    });
 
     function seekRelative(secs) {
         audio.currentTime = Math.max(0, Math.min((audio.currentTime + secs), audio.duration || 0));

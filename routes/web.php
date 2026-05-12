@@ -46,6 +46,16 @@ Route::get('/artist-view',[App\Http\Controllers\SiteController::class,'artist_pr
 
 /*<!--Song Information (READMORE)--!>*/
 Route::get('/song-information/{id}',[App\Http\Controllers\SiteController::class,'song_info' ])->name('song_info');
+
+/*<!-- Audio streaming (range-request support for seeking) -->*/
+Route::get('/audio/{filename}', function ($filename) {
+    $path = public_path('succesor/songs/' . $filename);
+    if (!file_exists($path)) abort(404);
+    return response()->file($path, [
+        'Content-Type'  => str_ends_with($filename, '.wav') ? 'audio/wav' : 'audio/mpeg',
+        'Cache-Control' => 'no-store',
+    ]);
+})->where('filename', '.*')->name('audio.stream');
 //Route::get('/song-information/{id}',[App\Http\Controllers\SiteController::class,'song_info_data' ])->name('song_info');
 /*<END>*/
 

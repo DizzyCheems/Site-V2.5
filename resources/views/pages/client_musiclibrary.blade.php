@@ -518,6 +518,7 @@
             border-radius: 10px;
             position: relative;
             transition: width 0.1s linear;
+            pointer-events: none;
         }
 
         .progress-thumb {
@@ -531,6 +532,7 @@
             opacity: 0;
             transition: opacity 0.2s;
             box-shadow: 0 0 12px var(--neon-purple);
+            pointer-events: none;
         }
 
         .progress-track:hover .progress-thumb { opacity: 1; }
@@ -684,6 +686,17 @@
             width: 0%;
             background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
             transition: width 0.1s linear;
+        }
+
+        /* Mini spectrogram canvas — sits above the bar */
+        .mini-spectro {
+            position: absolute;
+            bottom: 100%;
+            left: 0; right: 0;
+            width: 100%;
+            height: 50px;
+            pointer-events: none;
+            display: block;
         }
 
         .mini-inner {
@@ -857,7 +870,7 @@
                      data-artist="{{ $s->author }}"
                      data-img="/song-images/{{ $s->image }}"
                      data-bg="/song-images/{{ $s->background_image ?? $s->image }}"
-                     data-audio="{{ (str_starts_with($s->audio ?? '', '/') ? $s->audio : '/succesor/songs/' . $s->audio) }}"
+                     data-audio="{{ (str_starts_with($s->audio ?? '', '/') ? $s->audio : '/audio/' . $s->audio) }}"
                      onclick="openPlayer(this)">
 
                     <div class="song-tile-playing-bar"></div>
@@ -979,6 +992,7 @@
 
     <!-- MINI PLAYER -->
     <div id="miniPlayer" class="mini-player">
+        <canvas id="miniSpectroCv" class="mini-spectro"></canvas>
         <div class="mini-prog-line" onclick="seekMini(event)">
             <div class="mini-prog-fill" id="miniProgFill"></div>
         </div>
@@ -1022,6 +1036,8 @@
     const audio        = document.getElementById('mainAudio');
     const canvas       = document.getElementById('spectrogramCanvas');
     const ctx2d        = canvas.getContext('2d');
+    const miniCv       = document.getElementById('miniSpectroCv');
+    const miniCtx      = miniCv.getContext('2d');
     const overlay      = document.getElementById('playerOverlay');
     const miniPlayer   = document.getElementById('miniPlayer');
 
@@ -1043,6 +1059,8 @@
     function resizeCanvas() {
         canvas.width  = canvas.clientWidth  || 400;
         canvas.height = canvas.clientHeight || 80;
+        miniCv.width  = miniCv.clientWidth  || window.innerWidth;
+        miniCv.height = 50;
     }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -1137,6 +1155,32 @@
             ctx2d.moveTo(0, baseY);
             ctx2d.lineTo(W, baseY);
             ctx2d.stroke();
+
+            // ── Mini spectrogram (above mini player bar) ──
+            const mW = miniCv.width;
+            const mH = miniCv.height;
+            miniCtx.clearRect(0, 0, mW, mH);
+
+            const mBars = Math.min(binCount, 120);
+            const mGap  = 1;
+            const mBarW = (mW - (mBars - 1) * mGap) / mBars;
+
+            for (let i = 0; i < mBars; i++) {
+                const v    = dataArr[i] / 255;
+                const mBarH = v * mH * 0.92;
+                const x    = i * (mBarW + mGap);
+
+                const g = miniCtx.createLinearGradient(x, mH, x, mH - mBarH);
+                g.addColorStop(0,    `rgba(56,189,248,${0.4 + v * 0.5})`);
+                g.addColorStop(0.6,  `rgba(168,85,247,${0.6 + v * 0.35})`);
+                g.addColorStop(1,    `rgba(255,255,255,${v > 0.65 ? 0.85 : 0.2})`);
+
+                miniCtx.shadowBlur  = v > 0.5 ? 6 : 0;
+                miniCtx.shadowColor = 'rgba(168,85,247,0.55)';
+                miniCtx.fillStyle   = g;
+                miniCtx.fillRect(x, mH - mBarH, mBarW, mBarH);
+            }
+            miniCtx.shadowBlur = 0;
         }
         draw();
     }
@@ -1144,6 +1188,7 @@
     function stopViz() {
         if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
         ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+        miniCtx.clearRect(0, 0, miniCv.width, miniCv.height);
     }
 
     // ============================================================
@@ -1305,43 +1350,36 @@
     audio.addEventListener('pause', () => { isPlaying = false; setPlayIcons(false); stopViz(); });
 
     // ============================================================
-    //  SEEKING  (click + drag on progress bar)
+    //  SEEKING  (Pointer Events API — mouse, touch, stylus)
     // ============================================================
-    let isSeeking = false;
-    const progressTrack = document.getElementById('progressTrack');
+    const progressTrack  = document.getElementById('progressTrack');
+    const progressFillEl = document.getElementById('progressFill');
 
     function applySeek(clientX) {
         const rect = progressTrack.getBoundingClientRect();
-        const pct  = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
-        if (audio.duration && !isNaN(audio.duration)) {
+        if (!rect.width) return;
+        const pct = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
+        if (!isNaN(audio.duration) && audio.duration > 0) {
             audio.currentTime = pct * audio.duration;
-            document.getElementById('progressFill').style.width = (pct * 100) + '%';
+            progressFillEl.style.width = (pct * 100) + '%';
         }
     }
 
-    const progressFillEl = document.getElementById('progressFill');
-    progressTrack.addEventListener('mousedown', (e) => {
-        isSeeking = true;
+    progressTrack.addEventListener('pointerdown', (e) => {
+        progressTrack.setPointerCapture(e.pointerId);
         progressFillEl.style.transition = 'none';
         applySeek(e.clientX);
         e.preventDefault();
     });
-    document.addEventListener('mousemove', (e) => { if (isSeeking) applySeek(e.clientX); });
-    document.addEventListener('mouseup',   ()  => {
-        if (isSeeking) {
-            isSeeking = false;
+    progressTrack.addEventListener('pointermove', (e) => {
+        if (progressTrack.hasPointerCapture(e.pointerId)) applySeek(e.clientX);
+    });
+    progressTrack.addEventListener('pointerup', (e) => {
+        if (progressTrack.hasPointerCapture(e.pointerId)) {
+            progressTrack.releasePointerCapture(e.pointerId);
             progressFillEl.style.transition = '';
         }
     });
-
-    progressTrack.addEventListener('touchstart', (e) => {
-        isSeeking = true;
-        applySeek(e.touches[0].clientX);
-    }, { passive: true });
-    document.addEventListener('touchmove', (e) => {
-        if (isSeeking) applySeek(e.touches[0].clientX);
-    }, { passive: true });
-    document.addEventListener('touchend', () => { isSeeking = false; });
 
     function seekMini(e) {
         const rect = document.querySelector('.mini-prog-line').getBoundingClientRect();

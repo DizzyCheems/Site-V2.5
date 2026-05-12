@@ -79,9 +79,11 @@ class AdminController extends Controller
         if ($id) {
             $song = Song::findOrFail($id);
             $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
             $rules['audio'] = 'nullable|file|mimes:mp3,wav,ogg,flac|max:51200';
         } else {
             $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
             $rules['audio'] = 'required|file|mimes:mp3,wav,ogg,flac|max:51200';
         }
 
@@ -101,6 +103,14 @@ class AdminController extends Controller
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
             $imageFile->move(public_path('song-images'), $imageName);
             $data['image'] = $imageName;
+        }
+
+        // Handle background image upload
+        if ($request->hasFile('background_image')) {
+            $bgFile = $request->file('background_image');
+            $bgName = 'bg_' . time() . '_' . $bgFile->getClientOriginalName();
+            $bgFile->move(public_path('song-images'), $bgName);
+            $data['background_image'] = $bgName;
         }
 
         // Handle audio upload
@@ -124,6 +134,9 @@ class AdminController extends Controller
         // Delete associated files
         if ($song->image && file_exists(public_path('song-images/' . $song->image))) {
             unlink(public_path('song-images/' . $song->image));
+        }
+        if ($song->background_image && file_exists(public_path('song-images/' . $song->background_image))) {
+            unlink(public_path('song-images/' . $song->background_image));
         }
         if ($song->audio && file_exists(public_path('music/' . $song->audio))) {
             unlink(public_path('music/' . $song->audio));
@@ -158,8 +171,12 @@ class AdminController extends Controller
         if ($id) {
             $artist = Artist::findOrFail($id);
             $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
         } else {
             $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
         }
 
         $request->validate($rules);
@@ -172,12 +189,28 @@ class AdminController extends Controller
             $artist = new Artist();
         }
 
-        // Handle image upload
+        // Handle profile image upload
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
             $imageFile->move(public_path('artist-profile-images'), $imageName);
             $data['image'] = $imageName;
+        }
+
+        // Handle background image 1 upload
+        if ($request->hasFile('background_img')) {
+            $bgFile = $request->file('background_img');
+            $bgName = 'bg1_' . time() . '_' . $bgFile->getClientOriginalName();
+            $bgFile->move(public_path('artist-profile-images'), $bgName);
+            $data['background_img'] = $bgName;
+        }
+
+        // Handle background image 2 upload
+        if ($request->hasFile('secondbackground_img')) {
+            $bg2File = $request->file('secondbackground_img');
+            $bg2Name = 'bg2_' . time() . '_' . $bg2File->getClientOriginalName();
+            $bg2File->move(public_path('artist-profile-images'), $bg2Name);
+            $data['secondbackground_img'] = $bg2Name;
         }
 
         $artist->fill($data);
@@ -192,6 +225,12 @@ class AdminController extends Controller
         $artist = Artist::findOrFail($id);
         if ($artist->image && file_exists(public_path('artist-profile-images/' . $artist->image))) {
             unlink(public_path('artist-profile-images/' . $artist->image));
+        }
+        if ($artist->background_img && file_exists(public_path('artist-profile-images/' . $artist->background_img))) {
+            unlink(public_path('artist-profile-images/' . $artist->background_img));
+        }
+        if ($artist->secondbackground_img && file_exists(public_path('artist-profile-images/' . $artist->secondbackground_img))) {
+            unlink(public_path('artist-profile-images/' . $artist->secondbackground_img));
         }
         $artist->delete();
         return redirect()->route('admin.artists')->with('success', 'Artist deleted successfully!');

@@ -12,15 +12,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background: #0a0a1a;
-            color: #fff;
+            background: #f0f2f5;
+            color: #333;
             display: flex;
             min-height: 100vh;
         }
         .sidebar {
             width: 260px;
-            background: rgba(15,15,35,0.95);
-            border-right: 1px solid rgba(168,85,247,0.1);
+            background: #ffffff;
+            border-right: 1px solid #e0e0e0;
             padding: 25px 0;
             position: fixed;
             top: 0;
@@ -32,7 +32,7 @@
         .sidebar-logo {
             text-align: center;
             padding: 0 20px 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid #eee;
             margin-bottom: 15px;
         }
         .sidebar-logo img { height: 45px; }
@@ -40,15 +40,13 @@
             font-size: 14px;
             font-weight: 700;
             margin-top: 10px;
-            background: linear-gradient(135deg, #fff, #a855f7, #38bdf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #1a1a2e;
         }
         .nav-item {
             display: flex;
             align-items: center;
             padding: 12px 25px;
-            color: #888;
+            color: #666;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -56,13 +54,13 @@
             border-left: 3px solid transparent;
         }
         .nav-item:hover, .nav-item.active {
-            color: #fff;
-            background: rgba(168,85,247,0.08);
+            color: #a855f7;
+            background: rgba(168,85,247,0.06);
             border-left-color: #a855f7;
         }
         .nav-item i { width: 24px; margin-right: 12px; font-size: 16px; }
         .nav-item.logout { margin-top: auto; color: #ef4444; }
-        .nav-item.logout:hover { background: rgba(239,68,68,0.1); border-left-color: #ef4444; }
+        .nav-item.logout:hover { background: rgba(239,68,68,0.06); border-left-color: #ef4444; }
 
         .main-content {
             margin-left: 260px;
@@ -75,14 +73,14 @@
             align-items: center;
             margin-bottom: 30px;
         }
-        .header h1 { font-size: 1.8rem; font-weight: 800; }
-        .header h1 span { background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header h1 { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; }
+        .header h1 span { color: #a855f7; }
         .header .user-info { color: #888; font-size: 14px; }
         .header .user-info i { color: #a855f7; margin-right: 6px; }
 
         .stat-card {
-            background: rgba(15,15,35,0.8);
-            border: 1px solid rgba(168,85,247,0.1);
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
             border-radius: 16px;
             padding: 25px;
             transition: all 0.3s;
@@ -102,20 +100,20 @@
             font-size: 22px;
             margin-bottom: 15px;
         }
-        .stat-card .stat-number { font-size: 2rem; font-weight: 800; color: #fff; }
+        .stat-card .stat-number { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
         .stat-card .stat-label { color: #888; font-size: 13px; font-weight: 500; margin-top: 5px; }
 
         .table-card {
-            background: rgba(15,15,35,0.8);
-            border: 1px solid rgba(168,85,247,0.1);
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
             border-radius: 16px;
             padding: 25px;
             margin-top: 25px;
         }
-        .table-card h5 { font-weight: 700; margin-bottom: 15px; color: #fff; }
-        .table { color: #ccc; font-size: 13px; margin: 0; }
+        .table-card h5 { font-weight: 700; margin-bottom: 15px; color: #1a1a2e; }
+        .table { color: #555; font-size: 13px; margin: 0; }
         .table thead th {
-            border-bottom: 1px solid rgba(168,85,247,0.15);
+            border-bottom: 1px solid #e0e0e0;
             color: #888;
             font-weight: 600;
             font-size: 11px;
@@ -123,10 +121,10 @@
             letter-spacing: 1px;
             padding: 12px 8px;
         }
-        .table td { border-bottom: 1px solid rgba(255,255,255,0.03); padding: 12px 8px; vertical-align: middle; }
+        .table td { border-bottom: 1px solid #f0f0f0; padding: 12px 8px; vertical-align: middle; }
         .table tr:hover { background: rgba(168,85,247,0.03); }
         .badge-genre {
-            background: rgba(168,85,247,0.15);
+            background: rgba(168,85,247,0.1);
             color: #a855f7;
             padding: 3px 12px;
             border-radius: 20px;
@@ -138,7 +136,7 @@
             font-size: 13px;
             padding: 12px 18px;
         }
-        .alert-success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
     </style>
 </head>
 <body>
@@ -171,7 +169,7 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(168,85,247,0.15); color: #a855f7;">
+                    <div class="stat-icon" style="background: rgba(168,85,247,0.1); color: #a855f7;">
                         <i class="fas fa-music"></i>
                     </div>
                     <div class="stat-number">{{ $songCount }}</div>
@@ -180,7 +178,7 @@
             </div>
             <div class="col-md-6">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: rgba(56,189,248,0.15); color: #38bdf8;">
+                    <div class="stat-icon" style="background: rgba(56,189,248,0.1); color: #38bdf8;">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-number">{{ $artistCount }}</div>
@@ -209,7 +207,7 @@
                                 <td><span class="badge-genre">{{ $song->genre }}</span></td>
                             </tr>
                             @empty
-                            <tr><td colspan="3" style="color: #666; text-align: center;">No songs yet</td></tr>
+                            <tr><td colspan="3" style="color: #aaa; text-align: center;">No songs yet</td></tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -234,7 +232,7 @@
                                 <td>{{ $artist->nationality ?? 'N/A' }}</td>
                             </tr>
                             @empty
-                            <tr><td colspan="3" style="color: #666; text-align: center;">No artists yet</td></tr>
+                            <tr><td colspan="3" style="color: #aaa; text-align: center;">No artists yet</td></tr>
                             @endforelse
                         </tbody>
                     </table>

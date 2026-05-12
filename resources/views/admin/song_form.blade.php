@@ -12,15 +12,15 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background: #0a0a1a;
-            color: #fff;
+            background: #f0f2f5;
+            color: #333;
             display: flex;
             min-height: 100vh;
         }
         .sidebar {
             width: 260px;
-            background: rgba(15,15,35,0.95);
-            border-right: 1px solid rgba(168,85,247,0.1);
+            background: #ffffff;
+            border-right: 1px solid #e0e0e0;
             padding: 25px 0;
             position: fixed;
             top: 0;
@@ -28,36 +28,36 @@
             bottom: 0;
             z-index: 100;
         }
-        .sidebar-logo { text-align: center; padding: 0 20px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .sidebar-logo { text-align: center; padding: 0 20px 25px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
         .sidebar-logo img { height: 45px; }
-        .sidebar-logo h4 { font-size: 14px; font-weight: 700; margin-top: 10px; background: linear-gradient(135deg, #fff, #a855f7, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar-logo h4 { font-size: 14px; font-weight: 700; margin-top: 10px; color: #1a1a2e; }
         .nav-item {
-            display: flex; align-items: center; padding: 12px 25px; color: #888; text-decoration: none;
+            display: flex; align-items: center; padding: 12px 25px; color: #666; text-decoration: none;
             font-size: 14px; font-weight: 500; transition: all 0.3s; border-left: 3px solid transparent;
         }
-        .nav-item:hover, .nav-item.active { color: #fff; background: rgba(168,85,247,0.08); border-left-color: #a855f7; }
+        .nav-item:hover, .nav-item.active { color: #a855f7; background: rgba(168,85,247,0.06); border-left-color: #a855f7; }
         .nav-item i { width: 24px; margin-right: 12px; font-size: 16px; }
         .nav-item.logout { margin-top: auto; color: #ef4444; }
-        .nav-item.logout:hover { background: rgba(239,68,68,0.1); border-left-color: #ef4444; }
+        .nav-item.logout:hover { background: rgba(239,68,68,0.06); border-left-color: #ef4444; }
         .main-content { margin-left: 260px; flex: 1; padding: 30px; }
         .header { margin-bottom: 30px; }
-        .header h1 { font-size: 1.8rem; font-weight: 800; }
-        .header h1 span { background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header h1 { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; }
+        .header h1 span { color: #a855f7; }
         .form-card {
-            background: rgba(15,15,35,0.8); border: 1px solid rgba(168,85,247,0.1);
-            border-radius: 16px; padding: 30px; max-width: 700px;
+            background: #ffffff; border: 1px solid #e0e0e0;
+            border-radius: 16px; padding: 30px; max-width: 750px;
         }
-        .form-label { color: #aaa; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .form-label { color: #555; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .form-control {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 14px; transition: all 0.3s;
+            background: #f8f9fa; border: 1px solid #ddd;
+            border-radius: 10px; padding: 12px 16px; color: #333; font-size: 14px; transition: all 0.3s;
         }
-        .form-control:focus { background: rgba(255,255,255,0.08); border-color: #a855f7; box-shadow: 0 0 20px rgba(168,85,247,0.15); color: #fff; }
-        .form-control::placeholder { color: #555; }
+        .form-control:focus { background: #fff; border-color: #a855f7; box-shadow: 0 0 0 3px rgba(168,85,247,0.15); color: #333; }
+        .form-control::placeholder { color: #aaa; }
         .form-control[type="file"] { padding: 10px; }
         .form-control[type="file"]::file-selector-button {
-            background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.3);
-            color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px;
+            background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2);
+            color: #a855f7; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px;
         }
         .btn-save {
             background: linear-gradient(135deg, #a855f7, #38bdf8); color: #fff; border: none;
@@ -65,13 +65,14 @@
         }
         .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(168,85,247,0.3); }
         .btn-cancel {
-            background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1);
+            background: #f0f0f0; color: #666; border: 1px solid #ddd;
             padding: 12px 30px; border-radius: 10px; font-weight: 600; font-size: 14px; text-decoration: none; transition: all 0.3s; display: inline-block;
         }
-        .btn-cancel:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .btn-cancel:hover { background: #e0e0e0; color: #333; }
         .current-file { color: #888; font-size: 12px; margin-top: 5px; }
+        .preview-img { max-width: 120px; max-height: 80px; border-radius: 6px; margin-top: 5px; border: 1px solid #eee; }
         .alert { border-radius: 12px; font-size: 13px; padding: 12px 18px; }
-        .alert-danger { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+        .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
     </style>
 </head>
 <body>
@@ -131,15 +132,24 @@
                         <textarea name="info" class="form-control" rows="3">{{ $song->info ?? '' }}</textarea>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Image</label>
-                        <input type="file" name="image" class="form-control" accept="image/*" {{ $song ? '' : 'required' }}>
+                        <label class="form-label">Song Image</label>
+                        <input type="file" name="image" class="form-control" accept="image/*">
                         @if($song && $song->image)
                             <div class="current-file">Current: {{ $song->image }}</div>
+                            <img src="{{ asset('song-images/' . $song->image) }}" class="preview-img">
+                        @endif
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Background Image</label>
+                        <input type="file" name="background_image" class="form-control" accept="image/*">
+                        @if($song && $song->background_image)
+                            <div class="current-file">Current: {{ $song->background_image }}</div>
+                            <img src="{{ asset('song-images/' . $song->background_image) }}" class="preview-img">
                         @endif
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Audio File</label>
-                        <input type="file" name="audio" class="form-control" accept=".mp3,.wav,.ogg,.flac" {{ $song ? '' : 'required' }}>
+                        <input type="file" name="audio" class="form-control" accept=".mp3,.wav,.ogg,.flac">
                         @if($song && $song->audio)
                             <div class="current-file">Current: {{ $song->audio }}</div>
                         @endif

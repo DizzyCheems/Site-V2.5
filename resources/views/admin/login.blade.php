@@ -31,7 +31,7 @@
                         radial-gradient(circle at 70% 50%, rgba(56,189,248,0.06) 0%, transparent 50%);
             animation: bgPulse 8s ease-in-out infinite alternate;
         }
-        @keyframes bgPulse {
+        @@keyframes bgPulse {
             0% { transform: scale(1) rotate(0deg); }
             100% { transform: scale(1.1) rotate(3deg); }
         }

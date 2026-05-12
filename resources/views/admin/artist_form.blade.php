@@ -41,7 +41,7 @@
         .nav-item.logout { margin-top: auto; color: #ef4444; }
         .nav-item.logout:hover { background: rgba(239,68,68,0.06); border-left-color: #ef4444; }
         .main-content { margin-left: 260px; flex: 1; padding: 30px; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .header { margin-bottom: 30px; }
         .header h1 { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; }
         .header h1 span { color: #a855f7; }

@@ -49,3 +49,27 @@ Route::get('/song-information/{id}',[App\Http\Controllers\SiteController::class,
 //Route::get('/song-information/{id}',[App\Http\Controllers\SiteController::class,'song_info_data' ])->name('song_info');
 /*<END>*/
 
+/*<!-- ADMIN PANEL (CMS) -->*/
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\AdminController::class, 'login'])->name('login');
+    Route::post('/authenticate', [App\Http\Controllers\AdminController::class, 'authenticate'])->name('authenticate');
+    Route::get('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('logout');
+
+    Route::middleware(['admin.auth'])->group(function () {
+        Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+
+        // Songs
+        Route::get('/songs', [App\Http\Controllers\AdminController::class, 'songs'])->name('songs');
+        Route::get('/song/form/{id?}', [App\Http\Controllers\AdminController::class, 'song_form'])->name('song.form');
+        Route::post('/song/save/{id?}', [App\Http\Controllers\AdminController::class, 'song_save'])->name('song.save');
+        Route::get('/song/delete/{id}', [App\Http\Controllers\AdminController::class, 'song_delete'])->name('song.delete');
+
+        // Artists
+        Route::get('/artists', [App\Http\Controllers\AdminController::class, 'artists'])->name('artists');
+        Route::get('/artist/form/{id?}', [App\Http\Controllers\AdminController::class, 'artist_form'])->name('artist.form');
+        Route::post('/artist/save/{id?}', [App\Http\Controllers\AdminController::class, 'artist_save'])->name('artist.save');
+        Route::get('/artist/delete/{id}', [App\Http\Controllers\AdminController::class, 'artist_delete'])->name('artist.delete');
+    });
+});
+/*<END>*/
+

@@ -20,7 +20,7 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: url('/song-images/{{ $songs->image }}');
+            background-image: url('/song-images/{{ $songs->background_image ?? $songs->image }}');
             background-size: cover;
             background-position: center;
             filter: blur(50px) brightness(0.2) saturate(0.7);

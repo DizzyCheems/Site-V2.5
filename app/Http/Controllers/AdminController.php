@@ -78,18 +78,23 @@ class AdminController extends Controller
 
         if ($id) {
             $song = Song::findOrFail($id);
-            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
             $rules['audio'] = 'nullable|file|mimes:mp3,wav,ogg,flac|max:51200';
         } else {
-            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['background_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
             $rules['audio'] = 'required|file|mimes:mp3,wav,ogg,flac|max:51200';
         }
 
         $request->validate($rules);
 
         $data = $request->only(['songname', 'author', 'genre', 'album', 'date_registered', 'info']);
+
+        // Remove date_registered if empty to avoid null constraint violation
+        if (empty($data['date_registered'])) {
+            unset($data['date_registered']);
+        }
 
         if ($id) {
             $song = Song::findOrFail($id);
@@ -103,6 +108,8 @@ class AdminController extends Controller
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
             $imageFile->move(public_path('song-images'), $imageName);
             $data['image'] = $imageName;
+        } elseif ($request->filled('image_existing')) {
+            $data['image'] = basename($request->input('image_existing'));
         }
 
         // Handle background image upload
@@ -111,6 +118,15 @@ class AdminController extends Controller
             $bgName = 'bg_' . time() . '_' . $bgFile->getClientOriginalName();
             $bgFile->move(public_path('song-images'), $bgName);
             $data['background_image'] = $bgName;
+        } elseif ($request->filled('background_image_existing')) {
+            // Use an existing file from public/assets/bg-images/
+            $srcName = basename($request->input('background_image_existing'));
+            $src = public_path('assets/bg-images/' . $srcName);
+            if (file_exists($src)) {
+                $destName = 'bg_' . time() . '_' . $srcName;
+                copy($src, public_path('song-images/' . $destName));
+                $data['background_image'] = $destName;
+            }
         }
 
         // Handle audio upload
@@ -170,13 +186,13 @@ class AdminController extends Controller
 
         if ($id) {
             $artist = Artist::findOrFail($id);
-            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
         } else {
-            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
-            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['background_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
+            $rules['secondbackground_img'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:102400';
         }
 
         $request->validate($rules);

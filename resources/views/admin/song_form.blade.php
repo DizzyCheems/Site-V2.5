@@ -73,6 +73,23 @@
         .preview-img { max-width: 120px; max-height: 80px; border-radius: 6px; margin-top: 5px; border: 1px solid #eee; }
         .alert { border-radius: 12px; font-size: 13px; padding: 12px 18px; }
         .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+        .bg-picker { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .bg-picker-item { position: relative; cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: border-color 0.2s; }
+        .bg-picker-item img { width: 90px; height: 60px; object-fit: cover; display: block; }
+        .bg-picker-item input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        .bg-picker-item.selected { border-color: #a855f7; }
+        .bg-picker-item .check { display: none; position: absolute; top: 4px; right: 4px; background: #a855f7; color: #fff; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; align-items: center; justify-content: center; }
+        .bg-picker-item.selected .check { display: flex; }
+        .bg-picker-label { font-size: 10px; text-align: center; color: #666; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+        .or-divider { display: flex; align-items: center; gap: 10px; color: #aaa; font-size: 12px; margin: 10px 0; }
+        .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
+        .btn-pick-existing {
+            background: none; border: 1px dashed #c4b5fd; color: #a855f7; border-radius: 8px;
+            padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 6px;
+            transition: background 0.2s;
+        }
+        .btn-pick-existing:hover { background: rgba(168,85,247,0.08); }
+        .picker-wrap { display: none; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -131,21 +148,86 @@
                         <label class="form-label">Info</label>
                         <textarea name="info" class="form-control" rows="3">{{ $song->info ?? '' }}</textarea>
                     </div>
+                    {{-- Song Image --}}
                     <div class="col-md-6">
                         <label class="form-label">Song Image</label>
-                        <input type="file" name="image" class="form-control" accept="image/*">
                         @if($song && $song->image)
                             <div class="current-file">Current: {{ $song->image }}</div>
                             <img src="{{ asset('song-images/' . $song->image) }}" class="preview-img">
                         @endif
+
+                        @php
+                            $songImgFiles = array_values(array_filter(
+                                glob(public_path('song-images/*.{jpg,jpeg,png,webp,gif}'), GLOB_BRACE),
+                                fn($f) => is_file($f)
+                            ));
+                        @endphp
+                        @if(count($songImgFiles) > 0)
+                            <div>
+                                <button type="button" class="btn-pick-existing" onclick="togglePicker('imgPicker', this)">
+                                    <i class="fas fa-images"></i> Use existing image
+                                </button>
+                            </div>
+                            <div class="picker-wrap" id="imgPicker">
+                                <div class="bg-picker">
+                                    @foreach($songImgFiles as $sif)
+                                        @php $fname = basename($sif); @endphp
+                                        <label class="bg-picker-item" title="{{ $fname }}">
+                                            <input type="radio" name="image_existing" value="{{ $fname }}"
+                                                onchange="document.querySelectorAll('#imgPicker .bg-picker-item').forEach(el=>el.classList.remove('selected')); this.closest('.bg-picker-item').classList.add('selected'); document.getElementById('imgUpload').value='';">
+                                            <img src="{{ asset('song-images/' . $fname) }}" alt="{{ $fname }}">
+                                            <div class="check"><i class="fas fa-check"></i></div>
+                                            <div class="bg-picker-label">{{ $fname }}</div>
+                                        </label>
+                                    @endforeach
+                                </div>
+                                <div class="or-divider">or upload a new one</div>
+                            </div>
+                        @endif
+
+                        <input type="file" name="image" id="imgUpload" class="form-control mt-1" accept="image/*"
+                            onchange="document.querySelectorAll('input[name=image_existing]').forEach(r=>{r.checked=false;}); document.querySelectorAll('#imgPicker .bg-picker-item').forEach(el=>el.classList.remove('selected'));">
                     </div>
+
+                    {{-- Background Image --}}
                     <div class="col-md-6">
                         <label class="form-label">Background Image</label>
-                        <input type="file" name="background_image" class="form-control" accept="image/*">
                         @if($song && $song->background_image)
                             <div class="current-file">Current: {{ $song->background_image }}</div>
                             <img src="{{ asset('song-images/' . $song->background_image) }}" class="preview-img">
                         @endif
+
+                        @php
+                            $bgFiles = array_values(array_filter(
+                                glob(public_path('assets/bg-images/*.{jpg,jpeg,png,webp,gif}'), GLOB_BRACE),
+                                fn($f) => is_file($f)
+                            ));
+                        @endphp
+                        @if(count($bgFiles) > 0)
+                            <div>
+                                <button type="button" class="btn-pick-existing" onclick="togglePicker('bgPicker', this)">
+                                    <i class="fas fa-images"></i> Use existing background
+                                </button>
+                            </div>
+                            <div class="picker-wrap" id="bgPicker">
+                                <div class="bg-picker">
+                                    @foreach($bgFiles as $bgFile)
+                                        @php $fname = basename($bgFile); @endphp
+                                        <label class="bg-picker-item" title="{{ $fname }}">
+                                            <input type="radio" name="background_image_existing" value="{{ $fname }}"
+                                                onchange="document.querySelectorAll('#bgPicker .bg-picker-item').forEach(el=>el.classList.remove('selected')); this.closest('.bg-picker-item').classList.add('selected'); document.getElementById('bgUpload').value='';">
+                                            <img src="{{ asset('assets/bg-images/' . $fname) }}" alt="{{ $fname }}">
+                                            <div class="check"><i class="fas fa-check"></i></div>
+                                            <div class="bg-picker-label">{{ $fname }}</div>
+                                        </label>
+                                    @endforeach
+                                </div>
+                                <div class="or-divider">or upload a new one</div>
+                            </div>
+                        @endif
+
+                        <input type="file" name="background_image" id="bgUpload" class="form-control mt-1" accept="image/*"
+                            onchange="document.querySelectorAll('input[name=background_image_existing]').forEach(r=>{r.checked=false;}); document.querySelectorAll('#bgPicker .bg-picker-item').forEach(el=>el.classList.remove('selected'));">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Audio File</label>
@@ -162,5 +244,16 @@
             </form>
         </div>
     </div>
+    <script>
+        function togglePicker(id, btn) {
+            var wrap = document.getElementById(id);
+            var visible = wrap.style.display === 'block';
+            wrap.style.display = visible ? 'none' : 'block';
+            btn.innerHTML = visible
+                ? '<i class="fas fa-images"></i> ' + btn.dataset.label
+                : '<i class="fas fa-times"></i> Hide';
+            if (!btn.dataset.label) btn.dataset.label = btn.innerText.replace('Hide','').trim();
+        }
+    </script>
 </body>
 </html>

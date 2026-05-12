@@ -317,15 +317,36 @@
         /* ============================================
            FULLSCREEN PLAYER OVERLAY
            ============================================ */
+        /* Blurred song background in player */
+        .player-bg-layer {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.6) saturate(1.1);
+            transform: scale(1.0);
+            z-index: 0;
+            transition: background-image 0.5s ease;
+            pointer-events: none;
+        }
+        .player-bg-tint {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: rgba(4,4,12,0.35);
+            pointer-events: none;
+        }
+
         .player-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(4, 4, 12, 0.97);
-            backdrop-filter: blur(40px);
+            background: rgba(4, 4, 12, 0.7);
+            backdrop-filter: blur(0px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
             animation: fadeOverlay 0.35s ease;
         }
 
@@ -334,29 +355,6 @@
         @keyframes fadeOverlay {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        /* Background glow blobs */
-        .player-overlay::before {
-            content: '';
-            position: absolute;
-            width: 500px; height: 500px;
-            border-radius: 50%;
-            background: rgba(168, 85, 247, 0.07);
-            filter: blur(100px);
-            top: -10%; left: -10%;
-            pointer-events: none;
-        }
-
-        .player-overlay::after {
-            content: '';
-            position: absolute;
-            width: 400px; height: 400px;
-            border-radius: 50%;
-            background: rgba(56, 189, 248, 0.06);
-            filter: blur(80px);
-            bottom: -10%; right: -10%;
-            pointer-events: none;
         }
 
         .player-modal {
@@ -858,6 +856,7 @@
                      data-song="{{ $s->songname }}"
                      data-artist="{{ $s->author }}"
                      data-img="/song-images/{{ $s->image }}"
+                     data-bg="/song-images/{{ $s->background_image ?? $s->image }}"
                      data-audio="{{ (str_starts_with($s->audio ?? '', '/') ? $s->audio : '/succesor/songs/' . $s->audio) }}"
                      onclick="openPlayer(this)">
 
@@ -905,6 +904,8 @@
 
     <!-- FULLSCREEN PLAYER -->
     <div id="playerOverlay" class="player-overlay">
+        <div id="playerBgLayer" class="player-bg-layer"></div>
+        <div class="player-bg-tint"></div>
         <div class="player-modal">
 
             <span class="player-track-counter" id="trackCounter">1 / 1</span>
@@ -935,7 +936,7 @@
 
             <!-- Progress -->
             <div class="progress-wrap">
-                <div class="progress-track" id="progressTrack" onclick="seekAudio(event)">
+                <div class="progress-track" id="progressTrack">
                     <div class="progress-fill" id="progressFill">
                         <div class="progress-thumb"></div>
                     </div>
@@ -1049,31 +1050,20 @@
     window.addEventListener('resize', resizeCanvas);
 
     // ============================================================
-    //  AUDIO CONTEXT
+    //  AUDIO CONTEXT  (created once, never closed)
     // ============================================================
-    function setupAudioCtx() {
+    function ensureAudioCtx() {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             analyser  = audioCtx.createAnalyser();
             analyser.fftSize = 512;
-            connectSrc();
+            try {
+                sourceNode = audioCtx.createMediaElementSource(audio);
+                sourceNode.connect(analyser);
+                analyser.connect(audioCtx.destination);
+            } catch(e) { console.warn('AudioCtx:', e); }
         }
         if (audioCtx.state === 'suspended') audioCtx.resume();
-    }
-
-    function connectSrc() {
-        if (sourceNode) { try { sourceNode.disconnect(); } catch(e){} sourceNode = null; }
-        try {
-            sourceNode = audioCtx.createMediaElementSource(audio);
-            sourceNode.connect(analyser);
-            analyser.connect(audioCtx.destination);
-        } catch(e) { console.warn('Audio ctx:', e); }
-    }
-
-    function teardownAudioCtx() {
-        stopViz();
-        if (sourceNode) { try { sourceNode.disconnect(); } catch(e){} sourceNode = null; }
-        if (audioCtx) { audioCtx.close().catch(()=>{}); audioCtx = null; analyser = null; }
     }
 
     // ============================================================
@@ -1171,6 +1161,7 @@
         const title  = tile.dataset.song;
         const artist = tile.dataset.artist;
         const img    = tile.dataset.img;
+        const bg     = tile.dataset.bg || img;
         const total  = allTiles.length;
 
         document.getElementById('playerTitle').textContent  = title;
@@ -1180,6 +1171,10 @@
         document.getElementById('miniArtist').textContent   = artist;
         document.getElementById('miniArt').src              = img || '{{ asset("images/TentacitV1.1.png") }}';
         document.getElementById('trackCounter').textContent = `${currentIndex + 1} / ${total}`;
+
+        // Update blurred background with song's background_image
+        const bgLayer = document.getElementById('playerBgLayer');
+        if (bgLayer && bg) bgLayer.style.backgroundImage = `url('${bg}')`;
     }
 
     function setPlayIcons(playing) {
@@ -1204,22 +1199,20 @@
         document.body.classList.remove('has-mini');
 
         stopViz();
-        teardownAudioCtx();
+        audio.pause();
 
         document.getElementById('audioSource').src = tile.dataset.audio;
         audio.load();
 
-        const onCanPlay = () => {
-            audio.removeEventListener('canplay', onCanPlay);
-            setupAudioCtx();
+        audio.addEventListener('canplay', function onCan() {
+            audio.removeEventListener('canplay', onCan);
+            ensureAudioCtx();
             audio.play().then(() => {
                 isPlaying = true;
                 setPlayIcons(true);
                 drawViz();
             }).catch(e => console.log(e));
-        };
-        audio.addEventListener('canplay', onCanPlay, { once: true });
-        if (audio.readyState >= 3) onCanPlay();
+        }, { once: true });
     }
 
     function closePlayer() {
@@ -1231,7 +1224,7 @@
         overlay.classList.remove('active', 'playing');
         miniPlayer.classList.remove('active');
         document.body.classList.remove('has-mini');
-        teardownAudioCtx();
+        stopViz();
         document.getElementById('progressFill').style.width = '0%';
         document.getElementById('miniProgFill').style.width = '0%';
         document.getElementById('currentTime').textContent = '0:00';
@@ -1256,7 +1249,7 @@
     function togglePlayPause() {
         if (!allTiles[currentIndex]) return;
         if (audio.paused) {
-            setupAudioCtx();
+            ensureAudioCtx();
             audio.play().then(() => { isPlaying = true; setPlayIcons(true); drawViz(); });
         } else {
             audio.pause();
@@ -1314,18 +1307,41 @@
     audio.addEventListener('pause', () => { isPlaying = false; setPlayIcons(false); stopViz(); });
 
     // ============================================================
-    //  SEEKING
+    //  SEEKING  (click + drag on progress bar)
     // ============================================================
-    function seekAudio(e) {
-        const rect = document.getElementById('progressTrack').getBoundingClientRect();
-        const pct  = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
-        if (audio.duration) audio.currentTime = pct * audio.duration;
+    let isSeeking = false;
+    const progressTrack = document.getElementById('progressTrack');
+
+    function applySeek(clientX) {
+        const rect = progressTrack.getBoundingClientRect();
+        const pct  = Math.max(0, Math.min((clientX - rect.left) / rect.width, 1));
+        if (audio.duration && !isNaN(audio.duration)) {
+            audio.currentTime = pct * audio.duration;
+            document.getElementById('progressFill').style.width = (pct * 100) + '%';
+        }
     }
+
+    progressTrack.addEventListener('mousedown', (e) => {
+        isSeeking = true;
+        applySeek(e.clientX);
+        e.preventDefault();
+    });
+    document.addEventListener('mousemove', (e) => { if (isSeeking) applySeek(e.clientX); });
+    document.addEventListener('mouseup',   ()  => { isSeeking = false; });
+
+    progressTrack.addEventListener('touchstart', (e) => {
+        isSeeking = true;
+        applySeek(e.touches[0].clientX);
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+        if (isSeeking) applySeek(e.touches[0].clientX);
+    }, { passive: true });
+    document.addEventListener('touchend', () => { isSeeking = false; });
 
     function seekMini(e) {
         const rect = document.querySelector('.mini-prog-line').getBoundingClientRect();
         const pct  = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
-        if (audio.duration) audio.currentTime = pct * audio.duration;
+        if (audio.duration && !isNaN(audio.duration)) audio.currentTime = pct * audio.duration;
     }
 
     // ============================================================

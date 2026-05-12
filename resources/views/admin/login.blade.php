@@ -53,7 +53,12 @@
             text-align: center;
             margin-bottom: 30px;
         }
-        .login-logo img { height: 60px; }
+        .login-logo img {
+            height: 60px;
+            background: #000;
+            border-radius: 10px;
+            padding: 6px 12px;
+        }
         .login-logo h2 {
             color: #1a1a2e;
             font-weight: 800;

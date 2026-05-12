@@ -29,7 +29,7 @@
             z-index: 100;
         }
         .sidebar-logo { text-align: center; padding: 0 20px 25px; border-bottom: 1px solid #eee; margin-bottom: 15px; }
-        .sidebar-logo img { height: 45px; }
+        .sidebar-logo img { height: 45px; background: #000; border-radius: 8px; padding: 5px 10px; }
         .sidebar-logo h4 { font-size: 14px; font-weight: 700; margin-top: 10px; color: #1a1a2e; }
         .nav-item {
             display: flex; align-items: center; padding: 12px 25px; color: #666; text-decoration: none;

@@ -35,7 +35,7 @@
             border-bottom: 1px solid #eee;
             margin-bottom: 15px;
         }
-        .sidebar-logo img { height: 45px; }
+        .sidebar-logo img { height: 45px; background: #000; border-radius: 8px; padding: 5px 10px; }
         .sidebar-logo h4 {
             font-size: 14px;
             font-weight: 700;

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="{{ asset('succesor/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -66,7 +67,9 @@
             margin-left: 260px;
             flex: 1;
             padding: 30px;
+            animation: fadeIn 0.4s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .header {
             display: flex;
             justify-content: space-between;
@@ -148,6 +151,7 @@
         <a href="{{ route('admin.dashboard') }}" class="nav-item active"><i class="fas fa-home"></i> Dashboard</a>
         <a href="{{ route('admin.songs') }}" class="nav-item"><i class="fas fa-music"></i> Songs</a>
         <a href="{{ route('admin.artists') }}" class="nav-item"><i class="fas fa-users"></i> Artists</a>
+        <a href="{{ route('admin.vibes') }}" class="nav-item"><i class="fas fa-fire"></i> Vibes</a>
         <div style="flex:1;"></div>
         <a href="{{ route('admin.logout') }}" class="nav-item logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
@@ -165,6 +169,8 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+
+
 
         <div class="row g-4">
             <div class="col-md-6">
@@ -240,5 +246,10 @@
             </div>
         </div>
     </div>
+    <script>
+        @if(session('success'))
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: @json(session('success')), showConfirmButton: false, timer: 3000, timerProgressBar: true });
+        @endif
+    </script>
 </body>
 </html>

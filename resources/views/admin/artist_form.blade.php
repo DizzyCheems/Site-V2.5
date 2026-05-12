@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="{{ asset('succesor/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -39,13 +40,14 @@
         .nav-item i { width: 24px; margin-right: 12px; font-size: 16px; }
         .nav-item.logout { margin-top: auto; color: #ef4444; }
         .nav-item.logout:hover { background: rgba(239,68,68,0.06); border-left-color: #ef4444; }
-        .main-content { margin-left: 260px; flex: 1; padding: 30px; }
+        .main-content { margin-left: 260px; flex: 1; padding: 30px; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .header { margin-bottom: 30px; }
         .header h1 { font-size: 1.8rem; font-weight: 800; color: #1a1a2e; }
         .header h1 span { color: #a855f7; }
         .form-card {
             background: #ffffff; border: 1px solid #e0e0e0;
-            border-radius: 16px; padding: 30px; max-width: 750px;
+            border-radius: 16px; padding: 35px; max-width: 1100px;
         }
         .form-label { color: #555; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .form-control {
@@ -84,6 +86,7 @@
         <a href="{{ route('admin.dashboard') }}" class="nav-item"><i class="fas fa-home"></i> Dashboard</a>
         <a href="{{ route('admin.songs') }}" class="nav-item"><i class="fas fa-music"></i> Songs</a>
         <a href="{{ route('admin.artists') }}" class="nav-item active"><i class="fas fa-users"></i> Artists</a>
+        <a href="{{ route('admin.vibes') }}" class="nav-item"><i class="fas fa-fire"></i> Vibes</a>
         <div style="flex:1;"></div>
         <a href="{{ route('admin.logout') }}" class="nav-item logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
@@ -159,5 +162,10 @@
             </form>
         </div>
     </div>
+    <script>
+        @if(session('success'))
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: @json(session('success')), showConfirmButton: false, timer: 3000, timerProgressBar: true });
+        @endif
+    </script>
 </body>
 </html>

@@ -251,4 +251,49 @@ class AdminController extends Controller
         $artist->delete();
         return redirect()->route('admin.artists')->with('success', 'Artist deleted successfully!');
     }
+
+    // ===== VIBES (file-based, no DB) =====
+    private function vibesList()
+    {
+        return [
+            'electric' => ['name' => 'Electric', 'desc' => 'High energy & hard-hitting beats'],
+            'liquid'   => ['name' => 'Liquid',   'desc' => 'Smooth, melodic & atmospheric'],
+            'cosmic'   => ['name' => 'Cosmic',   'desc' => 'Cinematic, ambient & deep'],
+        ];
+    }
+
+    public function vibes()
+    {
+        $vibes = $this->vibesList();
+        return view('admin.vibes', compact('vibes'));
+    }
+
+    public function vibe_form($slug)
+    {
+        $vibes = $this->vibesList();
+        if (!isset($vibes[$slug])) abort(404);
+        $vibe = array_merge(['slug' => $slug], $vibes[$slug]);
+        return view('admin.vibe_form', compact('vibe'));
+    }
+
+    public function vibe_save(Request $request, $slug)
+    {
+        $vibes = $this->vibesList();
+        if (!isset($vibes[$slug])) abort(404);
+
+        $request->validate(['image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:102400']);
+
+        $file = $request->file('image');
+        $ext  = strtolower($file->getClientOriginalExtension());
+
+        // Remove any existing vibe image for this slug
+        foreach (['jpg', 'jpeg', 'png', 'webp', 'gif'] as $e) {
+            $old = public_path('assets/vibes/' . $slug . '.' . $e);
+            if (file_exists($old)) unlink($old);
+        }
+
+        $file->move(public_path('assets/vibes'), $slug . '.' . $ext);
+
+        return redirect()->route('admin.vibes')->with('success', $vibes[$slug]['name'] . ' vibe image updated!');
+    }
 }

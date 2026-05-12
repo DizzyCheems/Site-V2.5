@@ -79,6 +79,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/artist/form/{id?}', [App\Http\Controllers\AdminController::class, 'artist_form'])->name('artist.form');
         Route::post('/artist/save/{id?}', [App\Http\Controllers\AdminController::class, 'artist_save'])->name('artist.save');
         Route::get('/artist/delete/{id}', [App\Http\Controllers\AdminController::class, 'artist_delete'])->name('artist.delete');
+
+        // Vibes
+        Route::get('/vibes', [App\Http\Controllers\AdminController::class, 'vibes'])->name('vibes');
+        Route::get('/vibe/form/{slug}', [App\Http\Controllers\AdminController::class, 'vibe_form'])->name('vibe.form');
+        Route::post('/vibe/save/{slug}', [App\Http\Controllers\AdminController::class, 'vibe_save'])->name('vibe.save');
     });
 });
 /*<END>*/

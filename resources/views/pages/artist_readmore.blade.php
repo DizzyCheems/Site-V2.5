@@ -367,25 +367,25 @@
                     <div class="artist-hero-info">
                         <div class="artist-hero-label">Artist Profile</div>
                         <h1 class="artist-hero-name">{{ $artist->artistname }}</h1>
-                        <div class="artist-hero-genre">
-                            <i class="fas fa-music" style="font-size:10px;"></i>
-                            {{ $artist->genre }}
+                        @php $genres = array_map('trim', explode(',', $artist->genre)); @endphp
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px;">
+                            @foreach($genres as $g)
+                            <div class="artist-hero-genre" style="margin-bottom:0;">
+                                <i class="fas fa-music" style="font-size:10px;"></i>
+                                {{ $g }}
+                            </div>
+                            @endforeach
                         </div>
                         <div class="artist-hero-stats">
                             <div class="hero-stat">
                                 <div class="hero-stat-val">{{ $artist->song ? $artist->song->count() : 0 }}</div>
                                 <div class="hero-stat-label">Tracks</div>
                             </div>
-                            <div class="hero-divider"></div>
-                            <div class="hero-stat">
-                                <div class="hero-stat-val">{{ $artist->nationality ?? '—' }}</div>
-                                <div class="hero-stat-label">Nationality</div>
-                            </div>
                             @if($artist->dateregistered)
                             <div class="hero-divider"></div>
                             <div class="hero-stat">
-                                <div class="hero-stat-val">{{ \Carbon\Carbon::parse($artist->dateregistered)->format('Y') }}</div>
-                                <div class="hero-stat-label">Since</div>
+                                <div class="hero-stat-val">{{ substr($artist->dateregistered, -4) }}</div>
+                                <div class="hero-stat-label">Activation</div>
                             </div>
                             @endif
                         </div>
@@ -406,47 +406,54 @@
                             <div class="card-section-title">Artist Info</div>
 
                             <div class="info-row">
-                                <div class="info-icon"><i class="fas fa-user"></i></div>
+                                <div class="info-icon"><i class="fas fa-id-badge"></i></div>
                                 <div>
-                                    <div class="info-label">Real Name</div>
-                                    <div class="info-value">{{ $artist->realname ?? '—' }}</div>
+                                    <div class="info-label">Artist</div>
+                                    <div class="info-value">{{ $artist->artistname ?? '—' }}</div>
                                 </div>
                             </div>
 
                             <div class="info-row">
-                                <div class="info-icon"><i class="fas fa-globe-asia"></i></div>
+                                <div class="info-icon"><i class="fas fa-map-pin"></i></div>
                                 <div>
-                                    <div class="info-label">Nationality</div>
+                                    <div class="info-label">Root Vibe</div>
                                     <div class="info-value">{{ $artist->nationality ?? '—' }}</div>
                                 </div>
                             </div>
 
                             <div class="info-row">
-                                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="info-icon"><i class="fas fa-broadcast-tower"></i></div>
                                 <div>
-                                    <div class="info-label">Address</div>
+                                    <div class="info-label">Resonance Point</div>
                                     <div class="info-value">{{ $artist->address ?? '—' }}</div>
                                 </div>
                             </div>
 
                             <div class="info-row">
-                                <div class="info-icon"><i class="fas fa-headphones"></i></div>
+                                <div class="info-icon"><i class="fas fa-fingerprint"></i></div>
                                 <div>
-                                    <div class="info-label">Genre</div>
-                                    <div class="info-value">{{ $artist->genre ?? '—' }}</div>
+                                    <div class="info-label">Spectral Style</div>
+                                    <div class="info-value">{{ $artist->realname ?? '—' }}</div>
                                 </div>
                             </div>
 
                             <div class="info-row">
-                                <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+                                <div class="info-icon"><i class="fas fa-bolt"></i></div>
                                 <div>
-                                    <div class="info-label">Joined</div>
-                                    <div class="info-value">
-                                        @if($artist->dateregistered)
-                                            {{ \Carbon\Carbon::parse($artist->dateregistered)->format('F d, Y') }}
-                                        @else
-                                            —
-                                        @endif
+                                    <div class="info-label">Activation</div>
+                                    <div class="info-value">{{ $artist->dateregistered ?? '—' }}</div>
+                                </div>
+                            </div>
+
+                            <div class="info-row" style="border-bottom:none;">
+                                <div class="info-icon"><i class="fas fa-wave-square"></i></div>
+                                <div style="flex:1;">
+                                    <div class="info-label" style="margin-bottom:8px;">Frequencies</div>
+                                    @php $genres = array_map('trim', explode(',', $artist->genre)); @endphp
+                                    <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                                        @foreach($genres as $g)
+                                        <span style="display:inline-flex; align-items:center; gap:5px; padding:4px 12px; background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.3); border-radius:50px; font-size:11px; font-weight:600; letter-spacing:1px; color:rgba(168,85,247,0.9);">{{ $g }}</span>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

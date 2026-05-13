@@ -1261,16 +1261,16 @@
             <div class="section-header-row" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
                 <div class="section-header-left" style="text-align:center;">
                     <h2>What We Do</h2>
-                    <p>Empowering artists to build their music careers</p>
+                    <p>A quiet place for sounds that don't want to be seen.</p>
                     <div class="section-neon-bar" style="margin:12px auto 0;"></div>
                 </div>
             </div>
             <div class="row g-4 mt-2">
                 <div class="col-lg-4">
                     <div class="feature-card">
-                        <div class="feature-icon-wrap"><i class="fas fa-handshake"></i></div>
-                        <h4>Artist Development</h4>
-                        <p>We nurture talent from the ground up, providing the resources and guidance needed to turn musical passion into a thriving career.</p>
+                        <div class="feature-icon-wrap"><i class="fas fa-headphones"></i></div>
+                        <h4>A Name You Choose</h4>
+                        <p>Not the one your mother gave you. Your track arrives. We give it a spectral alias — something that sounds like your soul. Your real name goes back to sleep.</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -1278,17 +1278,17 @@
                         <div class="feature-icon-wrap" style="background:rgba(56,189,248,0.08);color:var(--neon-blue);border-color:rgba(56,189,248,0.15);">
                             <i class="fas fa-globe-americas"></i>
                         </div>
-                        <h4>Global Distribution</h4>
-                        <p>Get your music on Spotify, Apple Music, YouTube Music, and all major streaming platforms worldwide.</p>
+                        <h4>A Quiet Door to the World</h4>
+                        <p>Spotify, Apple Music, YouTube Music. All of it. The music travels. You stay exactly where you are. No interviews. No photo shoots. Just a small vibration that became a track.</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon-wrap" style="background:rgba(34,211,238,0.08);color:var(--neon-cyan);border-color:rgba(34,211,238,0.15);">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fas fa-lock"></i>
                         </div>
-                        <h4>Rights Management</h4>
-                        <p>We handle the business side so you can focus on what matters most — creating incredible music.</p>
+                        <h4>Nothing Else</h4>
+                        <p>No "development." No meetings about meetings. Tentacit is not a label. Not a classroom. Not a promise to "fix" you. Just a place to leave a sound and walk away.</p>
                     </div>
                 </div>
             </div>

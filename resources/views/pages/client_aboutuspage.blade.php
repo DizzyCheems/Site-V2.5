@@ -425,8 +425,7 @@
             </div>
             <h1 class="hero-title animate__animated animate__fadeInDown">Our Story</h1>
             <p class="hero-sub animate__animated animate__fadeInUp animate__delay-1s">
-                A record label built for artists — discover who we are,
-                what drives us, and the partners we stand with.
+                A quiet place for sounds that don't want to be seen.
             </p>
             <div class="hero-divider animate__animated animate__fadeIn animate__delay-1s"></div>
         </div>
@@ -476,55 +475,36 @@
                 </div>
                 <div class="col-md-8 d-flex align-items-center">
                     <p style="color: rgba(255,255,255,0.45); font-size: 15px; line-height: 1.9; margin: 0;">
-                        Tentacit Records is more than a label — it's a movement. We exist to free artists from the business overhead of music making, giving them space to create, connect, and grow while we handle the rest.
+                        A quiet place for sounds that don't want to be seen.
                     </p>
                 </div>
             </div>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="glass-card">
-                        <div class="card-icon"><i class="fas fa-bullhorn"></i></div>
-                        <h4>Who We Are</h4>
+                        <div class="card-icon"><i class="fas fa-headphones"></i></div>
+                        <h4>A Name You Choose</h4>
                         <p>
-                            A record label and publisher focused on relieving artists of the business side of music making — giving artists and their communities the flexibility to create, share, and support their creative endeavors without limits.
+                            Not the one your mother gave you. Your track arrives. We give it a spectral alias — something that sounds like your soul. Your real name goes back to sleep.
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="glass-card">
-                        <div class="card-icon" style="background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.2); color: var(--neon-blue);"><i class="fas fa-eye"></i></div>
-                        <h4>Our Vision</h4>
+                        <div class="card-icon" style="background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.2); color: var(--neon-blue);"><i class="fas fa-globe-americas"></i></div>
+                        <h4>A Quiet Door to the World</h4>
                         <p>
-                            We envision a company that gives hope and opportunity to every artist looking to monetize their passion — fostering a friendly, inclusive relationship among artists of all ages, backgrounds, and genres.
+                            Spotify, Apple Music, YouTube Music. All of it. The music travels. You stay exactly where you are. No interviews. No photo shoots. Just a small vibration that became a track.
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
                     <div class="glass-card">
-                        <div class="card-icon" style="background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.2); color: var(--neon-cyan);"><i class="fas fa-hand-holding-heart"></i></div>
-                        <h4>What We Offer</h4>
-                        <ul class="offer-list">
-                            <li>
-                                <span class="offer-icon"><i class="fas fa-seedling"></i></span>
-                                <div><strong>Artist Development</strong>Nurturing talent from the ground up</div>
-                            </li>
-                            <li>
-                                <span class="offer-icon"><i class="fas fa-globe"></i></span>
-                                <div><strong>Global Distribution</strong>Spotify, Apple Music, YouTube &amp; more</div>
-                            </li>
-                            <li>
-                                <span class="offer-icon"><i class="fas fa-shield-alt"></i></span>
-                                <div><strong>Rights Management</strong>Monetizing music to mainstream media</div>
-                            </li>
-                            <li>
-                                <span class="offer-icon"><i class="fas fa-broadcast-tower"></i></span>
-                                <div><strong>Managerial Support</strong>Releases managed &amp; disseminated</div>
-                            </li>
-                            <li>
-                                <span class="offer-icon"><i class="fas fa-rocket"></i></span>
-                                <div><strong>Global Exposure</strong>Partnered with the right companies</div>
-                            </li>
-                        </ul>
+                        <div class="card-icon" style="background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.2); color: var(--neon-cyan);"><i class="fas fa-lock"></i></div>
+                        <h4>Nothing Else</h4>
+                        <p>
+                            No "development." No meetings about meetings. Tentacit is not a label. Not a classroom. Not a promise to "fix" you. Just a place to leave a sound and walk away.
+                        </p>
                     </div>
                 </div>
             </div>

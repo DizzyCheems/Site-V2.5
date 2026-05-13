@@ -818,7 +818,7 @@
         }
 
         /* ============================================
-           FEATURES - WHAT WE DO
+           FEATURES - WHAT WE DOs
            ============================================ */
         .features-section {
             padding: 100px 0;

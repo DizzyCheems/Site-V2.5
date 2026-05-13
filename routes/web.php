@@ -73,6 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/song/form/{id?}', [App\Http\Controllers\AdminController::class, 'song_form'])->name('song.form');
         Route::post('/song/save/{id?}', [App\Http\Controllers\AdminController::class, 'song_save'])->name('song.save');
         Route::get('/song/delete/{id}', [App\Http\Controllers\AdminController::class, 'song_delete'])->name('song.delete');
+        Route::get('/song/feature/{id}', [App\Http\Controllers\AdminController::class, 'song_feature'])->name('song.feature');
 
         // Artists
         Route::get('/artists', [App\Http\Controllers\AdminController::class, 'artists'])->name('artists');

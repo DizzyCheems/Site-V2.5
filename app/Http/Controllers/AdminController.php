@@ -144,6 +144,13 @@ class AdminController extends Controller
         return redirect()->route('admin.songs')->with('success', $message);
     }
 
+    public function song_feature($id)
+    {
+        Song::query()->update(['featured' => 0]);
+        Song::findOrFail($id)->update(['featured' => 1]);
+        return redirect()->route('admin.songs')->with('success', 'Featured drop updated!');
+    }
+
     public function song_delete($id)
     {
         $song = Song::findOrFail($id);

@@ -68,6 +68,9 @@
         .btn-edit:hover { background: rgba(56,189,248,0.2); color: #38bdf8; }
         .btn-delete { background: rgba(239,68,68,0.1); color: #ef4444; }
         .btn-delete:hover { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .btn-feature { background: rgba(251,191,36,0.1); color: #f59e0b; }
+        .btn-feature:hover { background: rgba(251,191,36,0.25); color: #f59e0b; }
+        .btn-feature.is-featured { background: rgba(251,191,36,0.2); color: #f59e0b; box-shadow: 0 0 0 1px #f59e0b44; }
         .alert { border-radius: 12px; font-size: 13px; padding: 12px 18px; }
         .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
         .song-thumb { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
@@ -135,6 +138,9 @@
                         <td>{{ $song->album ?? '—' }}</td>
                         <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ $song->audio }}</td>
                         <td>
+                            <a href="{{ route('admin.song.feature', $song->id) }}" class="btn-sm btn-feature {{ $song->featured ? 'is-featured' : '' }}" title="{{ $song->featured ? 'Currently featured' : 'Set as Latest Drop' }}">
+                                <i class="fas fa-star"></i> {{ $song->featured ? 'Featured' : 'Set Drop' }}
+                            </a>
                             <a href="{{ route('admin.song.form', $song->id) }}" class="btn-sm btn-edit"><i class="fas fa-edit"></i> Edit</a>
                             <a href="{{ route('admin.song.delete', $song->id) }}" class="btn-sm btn-delete" onclick="return confirmDelete(event, this.href)"><i class="fas fa-trash"></i> Delete</a>
                         </td>

@@ -1068,8 +1068,7 @@
             </div>
 
             <!-- Right: featured track card -->
-            @if(isset($newestSongs) && count($newestSongs) > 0)
-            @php $featuredSong = $newestSongs->first(); @endphp
+            @if(isset($featuredSong) && $featuredSong)
             <div class="hero-right animate__animated animate__fadeInRight animate__delay-1s">
                 <a href="{{ route('song_info', $featuredSong->id) }}" class="hero-featured-card">
                     <div class="hero-featured-art">

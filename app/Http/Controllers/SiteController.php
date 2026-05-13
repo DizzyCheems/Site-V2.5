@@ -24,10 +24,13 @@ class SiteController extends Controller
         // Get newest tracks (latest 5 songs)
         $newestSongs = Song::orderBy('created_at', 'desc')->take(5)->get();
 
+        // Featured "Latest Drop" — admin-pinned, fallback to newest
+        $featuredSong = Song::where('featured', 1)->first() ?? $newestSongs->first();
+
         // Get most admired artists (latest 5 artists - you can adjust this logic)
         $admiredArtists = Artist::orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('pages.site', compact('artistCount', 'songCount', 'newestSongs', 'admiredArtists'));
+        return view('pages.site', compact('artistCount', 'songCount', 'newestSongs', 'featuredSong', 'admiredArtists'));
     }
 
 

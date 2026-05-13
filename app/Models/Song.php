@@ -14,7 +14,7 @@ class Song extends Model
 
     protected $fillable = [
         'artist_id','songname', 'genre', 'author', 'album', 'date_registered', 'background_image', 'image', 'audio',
-        'file_path', 'info', 'info2', 'info3'
+        'file_path', 'info', 'info2', 'info3', 'featured'
     ];
 
     protected $primarykey = 'id';
